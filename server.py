@@ -3,4 +3,4 @@
 
 boy = None
 background = None
-
+ball = None

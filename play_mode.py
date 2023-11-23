@@ -8,9 +8,10 @@ import game_world
 
 import server
 from boy import Boy
+from ball import Ball
 
 # fill here
-
+from background import FixedBackground as Background
 
 
 
@@ -27,8 +28,24 @@ def handle_events():
 
 
 def init():
+    global balls
+
     # fill here
-    pass
+    server.background = Background() #배경 월드에 넣기
+    game_world.add_object(server.background, 0)
+
+    server.boy = Boy() #소년 월드에 넣기
+    game_world.add_object(server.boy, 2)
+    game_world.add_collision_pair('boy:ball', server.boy, None)
+
+
+    # 공을 바닥에 100개 뿌린다
+    # balls = [Ball(random.randint(100, server.background.w - 50), random.randint(50, server.background.h - 50), 0) for _ in range(100)]
+    server.ball = [Ball() for _ in range(100)]
+    game_world.add_objects(server.ball, 1)
+    for ball in server.ball:
+        game_world.add_collision_pair('boy:ball', None, ball)
+
 
 def finish():
     game_world.clear()

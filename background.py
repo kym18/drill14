@@ -9,14 +9,26 @@ class FixedBackground:
     def __init__(self):
         self.image = load_image('futsal_court.png')
         # fill here
-        pass
+        self.cw = get_canvas_width() #화면의 너비
+        self.ch = get_canvas_height() #화면의 높이
+        self.w = self.image.w #백그라운드 너비
+        self.h = self.image.h #백그라운드 높이
 
     def draw(self):
         # fill here
+        self.image.clip_draw_to_origin( #보내는 이미지 피봇을 왼쪽 밑으로 간주(중심 x)
+            self.window_left, self.window_bottom, self.cw, self.ch,
+            0, 0
+        )
         pass
 
     def update(self):
         # fill here
+        self.window_left = int(server.boy.x) - self.cw // 2 #소년의좌표-캔버스가로 절반
+        self.window_bottom = int(server.boy.y) - self.ch // 2
+
+        self.window_left = clamp(0, self.window_left ,self.w - self.cw - 1) #어떤값을 어떤 범위 안으로 조정 clamp
+        self.window_bottom = clamp(0, self.window_bottom, self.h - self.ch - 1) #백그라운드 높이-화면높이 -1
         pass
 
     def handle_event(self, event):
